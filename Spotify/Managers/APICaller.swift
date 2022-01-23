@@ -18,6 +18,7 @@ enum APIError: Error {
 }
 
 final class APICaller {
+
     static let shared = APICaller()
 
     struct Constants {
@@ -86,7 +87,7 @@ final class APICaller {
             task.resume()
         }
     }
-    
+
     public func getRecommendations(genres: Set<String>, completion: @escaping (Result<RecommendationsResponse, Error>) -> Void) {
         let seeds = genres.joined(separator: ",")
         createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations?limit=40&seed_genres=\(seeds)"), type: .GET) { request in
@@ -107,7 +108,7 @@ final class APICaller {
             task.resume()
         }
     }
-    
+
     public func getRecommendationsGenres(completion: @escaping (Result<RecommendedGenresResponse, Error>) -> Void) {
         createRequest(with: URL(string: Constants.baseAPIURL + "/recommendations/available-genre-seeds"), type: .GET) { request in
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
@@ -127,7 +128,7 @@ final class APICaller {
             task.resume()
         }
     }
-    
+
     // MARK: - Private
     private func createRequest(with url: URL?, type: HTTPMethod, completion: @escaping (URLRequest) -> Void) {
         AuthManager.shared.withValidToken { token in
@@ -137,4 +138,5 @@ final class APICaller {
             completion(request)
         }
     }
+
 }

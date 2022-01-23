@@ -79,7 +79,7 @@ final class AuthManager {
             completion(false)
             return
         }
-        
+
         request.setValue("Basic \(base64String)",
                          forHTTPHeaderField: "Authorization")
         
@@ -162,7 +162,7 @@ final class AuthManager {
         
         request.setValue("Basic \(base64String)",
                          forHTTPHeaderField: "Authorization")
-        
+
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
             self?.refreshingToken = false
             guard let data = data, error == nil else {
@@ -194,4 +194,5 @@ final class AuthManager {
         UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)),
                                        forKey: "expirationDate")
     }
+
 }
