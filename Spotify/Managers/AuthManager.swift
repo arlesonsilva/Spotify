@@ -17,13 +17,13 @@ final class AuthManager {
         static let clientSecret = "de78849937994629abcc04dff0892a5f"
         static let tokenAPIURL = "https://accounts.spotify.com/api/token"
         static let redirectURI = "https://www.google.com.br/"
-        static let scope =
+        static let scopes =
         "user-read-private%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-follow-read%20user-library-modify%20user-library-read%20user-read-email"
     }
 
     public var signInURL: URL? {
         let base = "https://accounts.spotify.com/authorize"
-        let string = "\(base)?response_type=code&client_id=\(Constants.clientID)&scope=\(Constants.scope)&redirect_uri=\(Constants.redirectURI)&show_dialog=TRUE"
+        let string = "\(base)?response_type=code&client_id=\(Constants.clientID)&scope=\(Constants.scopes)&redirect_uri=\(Constants.redirectURI)&show_dialog=TRUE"
         return URL(string: string)
     }
 
@@ -130,7 +130,7 @@ final class AuthManager {
             return
         }
 
-        guard let refreshToken = refreshToken else {
+        guard let refreshToken = self.refreshToken else {
             return
         }
 
@@ -142,8 +142,10 @@ final class AuthManager {
 
         var components = URLComponents()
         components.queryItems = [
-            URLQueryItem(name: "grant_type", value: "refresh_token"),
-            URLQueryItem(name: "refresh_token", value: refreshToken),
+            URLQueryItem(name: "grant_type",
+                         value: "refresh_token"),
+            URLQueryItem(name: "refresh_token",
+                         value: refreshToken),
         ]
 
         var request = URLRequest(url: url)
@@ -171,8 +173,9 @@ final class AuthManager {
             }
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
-                self?.onRefreshblocks.forEach { $0(result.access_token) }
-                self?.onRefreshblocks.removeAll()
+                //self?.onRefreshblocks.forEach { $0(result.access_token) }
+                //self?.onRefreshblocks.removeAll()
+                print("Successfuly refreshed")
                 self?.cacheToken(result: result)
                 completion?(true)
             }
