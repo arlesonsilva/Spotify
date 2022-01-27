@@ -125,10 +125,10 @@ final class AuthManager {
             return
         }
 
-        guard shouldRefreshToken else {
-            completion?(true)
-            return
-        }
+//        guard shouldRefreshToken else {
+//            completion?(true)
+//            return
+//        }
 
         guard let refreshToken = self.refreshToken else {
             return
@@ -173,8 +173,8 @@ final class AuthManager {
             }
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
-                //self?.onRefreshblocks.forEach { $0(result.access_token) }
-                //self?.onRefreshblocks.removeAll()
+                self?.onRefreshblocks.forEach { $0(result.access_token) }
+                self?.onRefreshblocks.removeAll()
                 print("Successfuly refreshed")
                 self?.cacheToken(result: result)
                 completion?(true)
