@@ -11,6 +11,7 @@ import SDWebImage
 protocol PlaylistHeaderCollectionReusableViewDelegate: AnyObject {
     func playlistHeaderCollectionReusableViewDelegateDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView)
 }
+
 final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
     static let identifier = "PlaylistHeaderCollectionReusableView"
     weak var delegate: PlaylistHeaderCollectionReusableViewDelegate?
