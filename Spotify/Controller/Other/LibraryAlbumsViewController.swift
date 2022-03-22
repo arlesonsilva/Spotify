@@ -122,6 +122,7 @@ extension LibraryAlbumsViewController: UITableViewDelegate, UITableViewDataSourc
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        HapiticsManager.shared.vibrateForSelection()
         let album = albums[indexPath.row]
         let vc = AlbumViewController(album: album)
         vc.navigationItem.largeTitleDisplayMode = .never
